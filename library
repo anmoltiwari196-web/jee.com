@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Notes Sharing Platform</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f8fb; margin: 0; }
+    header { background: #0057b8; color: #fff; padding: 20px 0; text-align: center; }
+    .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 10px; }
+    h2 { color: #0057b8; }
+    .note-list { margin-top: 25px; }
+    .note-item { border: 1px solid #ddd; border-radius: 6px; margin-bottom: 18px; padding: 14px; background: #f7fbff; }
+    .add-note { margin-top: 40px; padding-top: 25px; border-top: 1px solid #eee; }
+    label { display: block; margin-bottom: 6px; }
+    input, textarea { width: 100%; margin-bottom: 12px; padding: 8px; }
+    button { background: #0057b8; color: #fff; padding: 10px 18px; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #004080; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Notes & Resources Sharing</h1>
+    <p>Share and find quality study materials for JEE and other competitive exams.</p>
+  </header>
+  <div class="container">
+    <h2>Available Notes</h2>
+    <div class="note-list" id="noteList">
+      <!-- Notes will show here -->
+    </div>
+
+    <div class="add-note">
+      <h2>Share a New Note</h2>
+      <form id="noteForm">
+        <label for="subject">Subject/Topic:</label>
+        <input id="subject" required>
+
+        <label for="desc">Short Description:</label>
+        <input id="desc" required>
+
+        <label for="link">Download/Resource Link (Google Drive, link, etc.):</label>
+        <input id="link" required>
+
+        <button type="submit">Share Note</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    const noteList = document.getElementById('noteList');
+    const noteForm = document.getElementById('noteForm');
+    const notes = [];
+
+    noteForm.onsubmit = function(e) {
+      e.preventDefault();
+      const subject = document.getElementById('subject').value.trim();
+      const desc = document.getElementById('desc').value.trim();
+      const link = document.getElementById('link').value.trim();
+
+      if (subject && desc && link) {
+        notes.push({ subject, desc, link });
+        renderNotes();
+        noteForm.reset();
+      }
+    };
+
+    function renderNotes() {
+      noteList.innerHTML = '';
+      if (notes.length === 0) {
+        noteList.innerHTML = '<p>No notes shared yet.</p>';
+      } else {
+        notes.forEach((note, idx) => {
+          const html = `
+            <div class="note-item">
+              <strong>${note.subject}</strong> <br>
+              <span>${note.desc}</span> <br>
+              <a href="${note.link}" target="_blank">View Resource</a>
+            </div>
+          `;
+          noteList.innerHTML += html;
+        });
+      }
+    }
+
+    renderNotes();
+  </script>
+</body>
+</html>
